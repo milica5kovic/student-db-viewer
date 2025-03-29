@@ -1,16 +1,29 @@
+<?php
+
+// generacija.php ? generacija=2020 => GET REQUEST 
+
+// $_GET['generacija']
+
+$generacija = $_GET['generacija'];
+
+$title = "Studenti " . $generacija . ". generacije";
+?>
+
 <?php require_once "db.php" ?>
 <?php include "modul/head.php" ?>
 
 <?php 
+
 $studenti = $pdo->query(
-    "select students.*, smers.naziv as 'smer'
+    "select students.*, smers.naziv as `smer`
     from students
     join smers on
     smers.id = students.smer_id
-    ")->fetchAll();
+    where students.generacija = $generacija
+    "
+    )->fetchAll();
 
-
-
+// print_r($studenti);
 
 ?>
 
@@ -19,7 +32,7 @@ $studenti = $pdo->query(
         <div class="panel panel-primary">
             
         <?php include "modul/smerovi.php" ?>
-        <?php include "modul/generacija.php" ?>
+        <?php include "modul/generacije.php" ?>
             
         </div>
     </div>
@@ -49,6 +62,5 @@ $studenti = $pdo->query(
         </table>
     </div>
 </div>
-
 
 <?php include "modul/foot.php" ?>
